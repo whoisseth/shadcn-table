@@ -166,7 +166,7 @@ export async function deleteTask(input: { id: string }) {
       await tx.delete(tasks).where(eq(tasks.id, input.id))
 
       // Create a new task for the deleted one
-      await tx.insert(tasks).values(generateRandomTask())
+      // await tx.insert(tasks).values(generateRandomTask())
     })
 
     revalidatePath("/")
@@ -178,13 +178,13 @@ export async function deleteTask(input: { id: string }) {
   }
 }
 
-export async function deleteTasks(input: { ids: string[] }) {
+export async function deleteTasksOld(input: { ids: string[] }) {
   try {
     await db.transaction(async (tx) => {
       await tx.delete(tasks).where(inArray(tasks.id, input.ids))
 
       // Create new tasks for the deleted ones
-      await tx.insert(tasks).values(input.ids.map(() => generateRandomTask()))
+      // await tx.insert(tasks).values(input.ids.map(() => generateRandomTask()))
     })
 
     revalidatePath("/")
@@ -197,6 +197,54 @@ export async function deleteTasks(input: { ids: string[] }) {
     return {
       data: null,
       error: getErrorMessage(err),
+    }
+  }
+}
+export async function deleteTasks(input: { ids: string[] }) {
+  try {
+    // Count the current number of tasks
+    const taskCountResult = await db
+      .select({
+        count: count(),
+      })
+      .from(tasks)
+      .then(takeFirstOrThrow)
+
+    const taskCount = taskCountResult.count
+
+    // Calculate the remaining tasks after deletion
+    const remainingTasks = taskCount - input.ids.length
+
+    // Prevent deletion if resulting number of tasks is below the threshold
+    if (remainingTasks < 5) {
+      throw new Error(
+        `Cannot delete the tasks. You must have at least 5 tasks in the database after deletion.`
+      )
+    }
+
+    // Proceed with deletion if the condition is satisfied
+    await db.transaction(async (tx) => {
+      await tx.delete(tasks).where(inArray(tasks.id, input.ids))
+    })
+
+    // Revalidate path after deletion
+    revalidatePath("/")
+
+    return {
+      data: null,
+      error: null,
+    }
+  } catch (err) {
+    // Handle errors
+    let errorMessage = "An error occurred while deleting the tasks."
+
+    if (err instanceof Error) {
+      errorMessage = err.message
+    }
+
+    return {
+      data: null,
+      error: errorMessage,
     }
   }
 }

@@ -18,17 +18,20 @@ import {
 interface DataTablePaginationProps<TData> {
   table: Table<TData>
   pageSizeOptions?: number[]
+  totalRows?: number
 }
 
 export function DataTablePagination<TData>({
   table,
+  totalRows,
   pageSizeOptions = [10, 20, 30, 40, 50],
 }: DataTablePaginationProps<TData>) {
   return (
     <div className="flex w-full flex-col-reverse items-center justify-between gap-4 overflow-auto p-1 sm:flex-row sm:gap-8">
       <div className="flex-1 whitespace-nowrap text-sm text-muted-foreground">
         {table.getFilteredSelectedRowModel().rows.length} of{" "}
-        {table.getFilteredRowModel().rows.length} row(s) selected.
+        {/* {table.getFilteredRowModel().rows.length} row(s) selected. */}
+        {totalRows} row(s) selected.
       </div>
       <div className="flex flex-col-reverse items-center gap-4 sm:flex-row sm:gap-6 lg:gap-8">
         <div className="flex items-center space-x-2">

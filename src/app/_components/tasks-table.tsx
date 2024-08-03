@@ -25,7 +25,7 @@ export function TasksTable({ tasksPromise }: TasksTableProps) {
   // Feature flags for showcasing some additional features. Feel free to remove them.
   const { featureFlags } = useTasksTable()
 
-  const { data, pageCount } = React.use(tasksPromise)
+  const { data, pageCount, totalRows } = React.use(tasksPromise)
   console.log("data-", data)
 
   // Memoize the columns so they don't re-render on every render
@@ -74,15 +74,21 @@ export function TasksTable({ tasksPromise }: TasksTableProps) {
     data,
     columns,
     pageCount,
-    // optional props
+    /* optional props */
     filterFields,
     enableAdvancedFilter: featureFlags.includes("advancedFilter"),
-    defaultPerPage: 10,
-    defaultSort: "createdAt.desc",
+    state: {
+      sorting: [{ id: "createdAt", desc: true }],
+      pagination: { pageIndex: 0, pageSize: 10 },
+      columnPinning: { right: ["actions"] },
+    },
+
+    /* */
   })
 
   return (
     <DataTable
+      totalRows={totalRows}
       table={table}
       floatingBar={
         featureFlags.includes("floatingBar") ? (
