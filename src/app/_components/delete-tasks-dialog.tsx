@@ -1,5 +1,3 @@
-"use client"
-
 import * as React from "react"
 import { type Task } from "@/db/schema"
 import { ReloadIcon, TrashIcon } from "@radix-ui/react-icons"
@@ -42,6 +40,8 @@ export function DeleteTasksDialog({
   tasks,
   showTrigger = true,
   onSuccess,
+  open,
+  onOpenChange,
   ...props
 }: DeleteTasksDialogProps) {
   const [isDeletePending, startDeleteTransition] = React.useTransition()
@@ -58,7 +58,7 @@ export function DeleteTasksDialog({
         return
       }
 
-      props.onOpenChange?.(false)
+      onOpenChange?.(false)
       toast.success("Tasks deleted")
       onSuccess?.()
     })
@@ -66,7 +66,7 @@ export function DeleteTasksDialog({
 
   if (isDesktop) {
     return (
-      <Dialog {...props}>
+      <Dialog open={open} onOpenChange={onOpenChange} {...props}>
         {showTrigger ? (
           <DialogTrigger asChild>
             <Button variant="outline" size="sm">
@@ -109,7 +109,7 @@ export function DeleteTasksDialog({
   }
 
   return (
-    <Drawer {...props}>
+    <Drawer open={open} onOpenChange={onOpenChange} {...props}>
       {showTrigger ? (
         <DrawerTrigger asChild>
           <Button variant="outline" size="sm">

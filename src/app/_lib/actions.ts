@@ -61,7 +61,6 @@ export async function createTask(input: CreateTaskSchema) {
         .returning({
           id: tasks.id,
         })
-        .then(takeFirstOrThrow)
 
       // Uncomment this block if you want to delete the oldest task to keep the total number of tasks constant
       // await tx.delete(tasks).where(
@@ -178,28 +177,6 @@ export async function deleteTask(input: { id: string }) {
   }
 }
 
-export async function deleteTasksOld(input: { ids: string[] }) {
-  try {
-    await db.transaction(async (tx) => {
-      await tx.delete(tasks).where(inArray(tasks.id, input.ids))
-
-      // Create new tasks for the deleted ones
-      // await tx.insert(tasks).values(input.ids.map(() => generateRandomTask()))
-    })
-
-    revalidatePath("/")
-
-    return {
-      data: null,
-      error: null,
-    }
-  } catch (err) {
-    return {
-      data: null,
-      error: getErrorMessage(err),
-    }
-  }
-}
 export async function deleteTasks(input: { ids: string[] }) {
   try {
     // Count the current number of tasks
