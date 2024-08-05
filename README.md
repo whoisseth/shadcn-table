@@ -77,8 +77,8 @@ This is a shadcn table component with server-side sorting, filtering, and pagina
 
    pnpm dlx shadcn-ui@latest add badge button calendar checkbox command dialog dropdown-menu form input label popover select separator skeleton sonner table toggle-group tooltip
 
-   pnpm add drizzle-orm postgres @tanstack/react-table zod @t3-oss/env-nextjs
-   pnpm add -D drizzle-kit dotenv-cli pg tsx
+   pnpm add drizzle-orm @libsql/client @tanstack/react-table zod @t3-oss/env-nextjs
+   pnpm add -D drizzle-kit dotenv-cli tsx
    ```
 
 2. Configure your Environment Variables
@@ -106,9 +106,9 @@ This is a shadcn table component with server-side sorting, filtering, and pagina
 
 ## Codebase Overview
 
-Watch the codebase overview video on [YouTube](https://www.youtube.com/watch?v=BsvjF5Y6-C8&t=1s).
+Watch the codebase overview video on [YouTube]().
 
-Consider subscribing to Kavin Desi Valli's [YouTube channel](https://www.youtube.com/@livecode247) for more videos.
+Consider subscribing to `React With Utkarsh` [YouTube channel](https://www.youtube.com/@reactwithutkarsh) for more videos.
 
 ## How do I deploy this?
 

@@ -9,8 +9,8 @@
     "moduleDetection": "force",
     "isolatedModules": true,
 
-    /* Strictness */
     "strict": true,
+    // This will - Add undefined to a type when accessed using an index.
     "noUncheckedIndexedAccess": true,
     "checkJs": true,
 
