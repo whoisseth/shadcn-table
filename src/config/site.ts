@@ -9,6 +9,6 @@ export const siteConfig = {
   url:
     env.NODE_ENV === "development"
       ? "http://localhost:3000"
-      : "shadcn-table-vert.vercel.app",
+      : "https://shadcn-table-vert.vercel.app",
   links: { github: "https://github.com/whoisseth/shadcn-table" },
 }

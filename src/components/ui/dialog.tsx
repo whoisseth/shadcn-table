@@ -5,9 +5,21 @@ import * as DialogPrimitive from "@radix-ui/react-dialog"
 import { Cross2Icon } from "@radix-ui/react-icons"
 
 import { cn } from "@/lib/utils"
+import useBodyPointerEvents from "@/hooks/useBodyPointerEvents"
 
-const Dialog = DialogPrimitive.Root
+interface DialogProps
+  extends React.ComponentPropsWithoutRef<typeof DialogPrimitive.Root> {
+  open: boolean
+  onOpenChange: (open: boolean) => void
+}
 
+const Dialog = ({ open, onOpenChange, ...props }: DialogProps) => {
+  useBodyPointerEvents(open)
+
+  return (
+    <DialogPrimitive.Root open={open} onOpenChange={onOpenChange} {...props} />
+  )
+}
 const DialogTrigger = DialogPrimitive.Trigger
 
 const DialogPortal = DialogPrimitive.Portal
